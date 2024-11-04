@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <form id="payment-form" data-secret="{{ .ClientSecret }}">
+        <div id="payment-element">
+            <!-- placeholder for Elements -->
+        </div>
+        <button id="submit">Submit</button>
+    </form>
+    <script>
+        // Initialize Stripe.js with the same connected account ID used when creating
+        // the PaymentIntent.
+        const stripe = Stripe('{{ .PublishableKey }}', {
+            stripeAccount: '{{ .ConnectedAccountID }}'
+        });
+
+        const options = {
+            clientSecret: '{{ .ClientSecret }}',
+            // Fully customizable with the Appearance API
+            appearance: {/*...*/},
+        };
+        // Set up Stripe.js and Elements to use in checkout form using the client secret
+        const elements = stripe.elements(options);
+        // Create and mount the Payment Element
+        const paymentElement = elements.create("payment");
+        paymentElement.mount("#payment-element");
+
+        const form = document.getElementById('payment-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const {error} = await stripe.confirmPayment({
+                //`Elements` instance that was used to create the Payment Element
+                elements,
+                confirmParams: {
+                return_url: '{{ .ReturnURL }}',
+                },
+            });
+
+            if (error) {
+                // This point will only be reached if there is an immediate error when
+                // confirming the payment. Show error to your customer (for example, payment
+                // details incomplete)
+                const messageContainer = document.querySelector('#error-message');
+                messageContainer.textContent = error.message;
+            } else {
+                // Your customer will be redirected to your `return_url`. For some payment
+                // methods like iDEAL, your customer will be redirected to an intermediate
+                // site first to authorize the payment, then redirected to the `return_url`.
+            }
+        });
+    </script>
+</body>
+</html>

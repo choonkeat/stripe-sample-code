@@ -1,0 +1,38 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.0",
+    "react-scripts": "^3.4.0",
+    "@stripe/connect-js": "3.3.5",
+    "@stripe/react-connect-js": "3.3.7"
+  },
+  "homepage": "http://localhost:3000",
+  "proxy": "http://localhost:4242",
+  "scripts": {
+    "start": "parcel watch",
+    "build": "parcel build"
+  },
+  "source": "public/index.html",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  }
+}
