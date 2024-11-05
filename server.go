@@ -114,9 +114,10 @@ func main() {
 		stripe.Key = flags.SecretKey
 
 		params := &stripe.TransferParams{
-			Amount:      stripe.Int64(10),
-			Currency:    stripe.String(string(stripe.CurrencyUSD)),
+			Amount:      stripe.Int64(1),
+			Currency:    stripe.String(string(stripe.CurrencySGD)),
 			Destination: stripe.String(flags.ConnectedAccountID),
+			SourceType:  stripe.String(string(stripe.TransferSourceTypeCard)),
 		}
 		result, err := transfer.New(params)
 		if err != nil {
